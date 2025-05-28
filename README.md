@@ -1,5 +1,47 @@
 # PyPop7: A Pure-PYthon librarY of POPulation-based cOntinuous OPtimization in black-box cases [CCF-A]
 
+# Goal: Benchmarking Script Improvement Project
+
+## 1. Code Structure and Maintainability Issues
+- **Problem**: Very long and hard-to-manage if-elif chain with 80+ lines for optimizer selection
+- **Problem**: Hardcoded optimizer lists duplicated across multiple locations, requiring modifications in several places when adding new optimizers
+- **Problem**: High code duplication and error-prone structure
+
+## 2. Configuration Management System Issues
+- **Problem**: Hardcoded configuration values (boundary values, evaluation counts, runtime limits, etc.) embedded directly in code
+- **Problem**: Inconvenience of having to modify code directly to change settings
+- **Problem**: Lack of reusability and management efficiency for experiment configurations
+
+## 3. Error Handling and Logging System Issues
+- **Problem**: Fragile structure where the entire experiment stops when an error occurs during execution
+- **Problem**: Logging consists only of simple print statements, making debugging and monitoring difficult
+- **Problem**: Difficult to identify error causes and limited recovery options when errors occur
+
+## 4. Parallel Processing Performance Issues
+- **Problem**: All experiments run sequentially, resulting in long execution times
+- **Problem**: Inefficient utilization of multi-core system resources
+- **Problem**: Inefficient processing time when performing large-scale experiments
+
+## 5. Memory Efficiency Issues
+- **Problem**: Potentially excessive memory usage for high-dimensional problems like 2000-dimensional cases
+- **Problem**: Risk of memory shortage due to storing all results in memory
+- **Problem**: Potential memory leaks in long-running experiments
+
+## 6. Lack of Result Analysis and Visualization Tools
+- **Problem**: Poor readability as results are saved only in pickle format
+- **Problem**: Lack of analysis tools for experiment results makes post-processing cumbersome
+- **Problem**: Absence of functionality to export results in various formats or create visualizations
+
+## 7. Code Quality and Documentation Issues
+- **Problem**: Limited IDE support and reduced code stability due to insufficient type hints
+- **Problem**: Lack of documentation (docstrings) for functions and classes
+- **Problem**: Lack of clear structure and comments for code review and maintenance
+
+## 8. Reproducibility and Checkpoint Functionality Issues
+- **Problem**: Long-running experiments must restart from the beginning if they fail midway
+- **Problem**: No checkpoint functionality to save and restore intermediate experiment states
+- **Problem**: Lack of systematic state management to ensure experiment reproducibility
+
 <img src="https://github.com/Evolutionary-Intelligence/pypop/blob/main/docs/logo/MayorIcons.png"
 alt="drawing" width="21" height="21"/> `PyPop7` has been used and cited in one **Nature** paper
 [[Veenstra et al., Nature, 2025]](https://www.nature.com/articles/s41586-025-08646-3) and etc.

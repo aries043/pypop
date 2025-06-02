@@ -1,47 +1,323 @@
+# OpenSource Project(25-1)
+
+## Kim Chan Woo(2021040018)
+
+---
+
+# Goal : Benchmarking Script Refactoring
+
+## Overall Objective
+
+Transform the existing benchmarking script into a **maintainable, extensible, and reliable system** to enhance productivity and reliability in research and experimental environments.
+
+---
+
+## Phase-by-Phase Goals
+
+### Phase 1: Code Structure Improvement
+
+**Goal**: Transform complex and repetitive code patterns into systematic and manageable structures
+
+- **Eliminate 80+ line if-elif chain**: Replace optimizer selection logic with centralized configuration system
+- **Build dynamic import system**: Implement runtime loading system for required optimizer classes
+- **Ensure type safety**: Add type hints throughout codebase for improved IDE support and early error detection
+- **Remove code duplication**: Consolidate repetitive import patterns and configuration logic
+
+### Phase 2: Configuration Management System
+
+**Goal**: Separate hardcoded values into external configuration to improve experiment flexibility and reproducibility
+
+- **Create centralized configuration class**: Build system to manage all experiment parameters in one location
+- **Support multiple formats**: Support both JSON and YAML configuration files for user convenience
+- **Implement template system**: Create template generation functionality for easy configuration startup
+- **Progressive enhancement**: Implement new features as opt-in while maintaining existing behavior
+
+### Phase 3: Reliability & Recovery System
+
+**Goal**: Ensure experiment execution stability and build recovery capabilities for failure scenarios
+
+- **Comprehensive error handling**: Implement granular handling logic for various exception scenarios
+- **Guarantee experiment continuity**: System to prevent individual experiment failures from terminating entire batch execution
+- **Checkpoint and recovery**: State management system for automatic resumption of interrupted experiments
+- **Structured logging**: Build detailed logging system for debugging and monitoring
+
+---
+
+## Core Design Principles
+
+### 1. **Backward Compatibility**
+- Complete preservation of existing command-line interface
+- Uninterrupted support for existing scripts and workflows
+- Maintain identical output format and result storage structure
+
+### 2. **Progressive Enhancement**
+- New features provided as opt-in functionality
+- Default behavior remains identical to existing system
+- Users can activate advanced features as needed
+
+### 3. **Extensibility**
+- Simple configuration approach for adding new optimizers
+- Flexible structure for adding new experiment parameters
+- Solid foundation for future feature expansion
+
+### 4. **Observability**
+- Real-time monitoring of experiment progress
+- Detailed error information and debugging support
+- Performance metrics and experiment statistics tracking
+
+---
+
+## Expected Benefits
+
+### Developer Perspective
+- **60%+ reduction in code maintenance cost**: Simplified change operations through centralized configuration
+- **Shortened time to add new optimizers**: Single-line configuration for new optimizer addition
+- **Improved debugging efficiency**: Reduced troubleshooting time through structured logging
+
+### Researcher Perspective
+- **Experiment configuration flexibility**: Ability to adjust experiment parameters without code modification
+- **Enhanced experiment reproducibility**: Precise experiment environment reconstruction through configuration files
+- **Resilience to experiment interruptions**: Automatic experiment resumption through checkpoints
+
+### System Perspective
+- **Improved stability**: Minimized impact of individual experiment failures on entire batch
+- **Resource efficiency**: Selective re-execution of only failed experiments
+- **Enhanced monitoring**: Real-time progress tracking and performance analysis
+
+---
+
+# Requirements
+
+Docker container specifications and installed library versions.
+
+## System Requirements
+
+### Base Image
+- **Python**: 3.10-slim (Debian-based lightweight Python image)
+
+### System Dependencies
+- **build-essential**: Latest (GCC compiler, make, and essential build tools)
+- **git**: Latest (Version control system)
+
+## Python Package Requirements
+
+### Core Dependencies
+```
+pip >= 23.0.0
+setuptools >= 65.0.0
+wheel >= 0.38.0
+```
+
+### Main Libraries
+```
+pypop7 >= 0.0.1
+pyyaml >= 6.0.0
+```
+
+### PyPop7 Dependencies
+The following packages are automatically installed with pypop7:
+```
+numpy >= 1.21.0
+scipy >= 1.7.0
+matplotlib >= 3.5.0
+pandas >= 1.3.0
+```
+
+## Minimum Hardware Requirements
+
+### System Resources
+- **RAM**: 2GB minimum, 4GB recommended
+- **CPU**: 1 core minimum, 2+ cores recommended for parallel optimization
+- **Storage**: 1GB free space for results and temporary files
+
+### Docker Requirements
+- **Docker Engine**: 20.10.0 or higher
+- **Docker Compose**: 2.0.0 or higher (if using compose)
+
+## Compatible Platforms
+
+### Operating Systems
+- Linux (Ubuntu 18.04+, CentOS 7+, Debian 10+)
+- Windows 10/11 with WSL2
+- macOS 10.15+ (Intel and Apple Silicon)
+
+### Architecture Support
+- x86_64 (AMD64)
+- ARM64 (Apple Silicon, ARM-based systems)
+
+---
+
+# How to install & Run
+
+Step-by-step execution instructions assuming Docker is already installed.
+
+## Docker Image Download and Installation
+
+### Method 1: Build Image Directly
+
+#### Step 1: Download Source Code
+```bash
+# Clone project from GitHub
+git clone https://github.com/aries043/pypop.git
+cd pypop
+```
+
+#### Step 2: Create Dockerfile
+```bash
+# Create Dockerfile in pypop project folder
+cat > Dockerfile << EOF
+FROM python:3.10-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y \\
+    build-essential \\
+    git \\
+    && rm -rf /var/lib/apt/lists/*
+
+COPY setup.cfg /app/
+COPY pyproject.toml /app/
+COPY README.md /app/
+COPY pypop7/ /app/pypop7/
+COPY tutorials/ /app/tutorials/
+
+RUN pip install --upgrade pip setuptools wheel
+
+RUN pip install pypop7
+
+RUN pip install pyyaml
+
+RUN chmod +x /app/tutorials/*.py
+
+CMD ["tail", "-f", "/dev/null"]
+EOF
+```
+
+#### Step 3: Build Docker Image
+```bash
+# Build Docker image
+docker build -t final_2021040018:v1 .
+
+# Verify built image
+docker images
+```
+
+## Docker Container Creation and Execution
+
+### Step 1: Create and Run Docker Container
+```bash
+# Run container in background
+docker run -dit final_2021040018:v1
+```
+
+### Step 2: Check Running Containers
+```bash
+# Check running container list
+docker ps
+```
+
+### Step 3: Access Container
+```bash
+# Access using container ID
+docker exec -it [container ID] bash
+```
+
+## Directory Structure
+
+### Container Internal Directory Structure
+```
+/app/
+├── setup.cfg                    # Package configuration file
+├── pyproject.toml              # Python project configuration
+├── README.md                   # Project documentation
+├── pypop7/                     # PyPop7 library source code
+│   ├── __init__.py
+│   ├── batch/                  # Batch Optimization algorithms
+│   ├── optimizers/             # Optimization algorithms
+│   └── benchmarks/             # Benchmark functions
+└── tutorials/                         # Tutorials and benchmarking scripts
+    ├── README.md                      # Tutorial documentation
+    ├── benchmarking_lsbbo_1.py        # Data generation script
+    ├── benchmarking_lsbbo_2.py        # Benchmarking execution script
+    ├── coco_benchmarking.py           # COCO benchmark script
+    ├── coco_optimization.py           # COCO optimization example
+    ├── gymnasium_optimization.py      # Gymnasium environment optimization
+    ├── Lennard_Jones_cluster_optimization.py  # Lennard-Jones optimization
+    ├── lens_shape_optimization.py     # Lens shape optimization
+    ├── photonics_optimization.py      # Photonics optimization
+    ├── pykep_optimization.py          # PyKEP optimization example
+    ├── plotting/                      # Plotting utilities and examples
+    ├── CDE_vs_JADE.png               # Comparison visualization
+    ├── COCO_MAES.png                 # COCO MAES results
+    ├── lens_shape_optimization.gif    # Lens optimization animation
+    ├── photonics_optimization.png     # Photonics results visualization
+    ├── pykep_optimization.jpg         # PyKEP results image
+    └── pypop7_benchmarks_lso/         # Results storage folder (created after execution)
+        ├── Algo-*_Func-*_Dim-*_Exp-*.pickle  # Experiment result files
+        └── checkpoint.json            # Checkpoint file
+```
+
+### Purpose of Each Directory
+- **`/app/pypop7/`**: Core source code of PyPop7 library
+- **`/app/tutorials/`**: Benchmarking scripts and execution files
+- **`/app/tutorials/pypop7_benchmarks_lso/`**: Storage for experiment results and log files
+- **`/app/setup.cfg`, `/app/pyproject.toml`**: Package installation and configuration files
+
+## How to Finish Execution and Terminate
+
+### Step 1: Exit Container
+```bash
+# Execute inside container (terminate bash session)
+exit
+```
+
+### Step 2: Stop Container
+```bash
+# Stop container
+docker stop [container ID or name]
+
+# Stop all running containers
+docker stop $(docker ps -q)
+```
+
+---
+ 
+# Guide
+
+## Execution Command Examples
+
+- Please proceed with the pypop project folder
+
+### Step 1: Data Preparation (Run once initially)
+```bash
+python ./tutorials/benchmarking_lsbbo_1.py
+```
+
+### Step 2: Benchmarking Execution
+
+#### **Basic Execution (Quick Test)**
+```bash
+# Single experiment with CMAES algorithm on 2D problem
+python ./tutorials/benchmarking_lsbbo_2.py --start 0 --end 0 --optimizer CMAES --ndim_problem 2
+```
+
+#### **Practical Execution Examples**
+```bash
+# 1) 3 experiments on 10D problem
+python ./tutorials/benchmarking_lsbbo_2.py --start 0 --end 2 --optimizer JADE --ndim_problem 10
+
+# 2) Compare multiple algorithms (run each separately)
+python ./tutorials/benchmarking_lsbbo_2.py --start 0 --end 4 --optimizer CMAES --ndim_problem 100
+python ./tutorials/benchmarking_lsbbo_2.py --start 0 --end 4 --optimizer JADE --ndim_problem 100
+python ./tutorials/benchmarking_lsbbo_2.py --start 0 --end 4 --optimizer PRS --ndim_problem 100
+
+# 3) Large-scale experiment (2000D, 10 experiments)
+python ./tutorials/benchmarking_lsbbo_2.py --start 0 --end 9 --optimizer CMAES --ndim_problem 2000
+```
+
+---
+
 # PyPop7: A Pure-PYthon librarY of POPulation-based cOntinuous OPtimization in black-box cases [CCF-A]
-
-# Goal: Benchmarking Script Improvement Project
-
-## 1. Code Structure and Maintainability Issues
-- **Problem**: Very long and hard-to-manage if-elif chain with 80+ lines for optimizer selection
-- **Problem**: Hardcoded optimizer lists duplicated across multiple locations, requiring modifications in several places when adding new optimizers
-- **Problem**: High code duplication and error-prone structure
-
-## 2. Configuration Management System Issues
-- **Problem**: Hardcoded configuration values (boundary values, evaluation counts, runtime limits, etc.) embedded directly in code
-- **Problem**: Inconvenience of having to modify code directly to change settings
-- **Problem**: Lack of reusability and management efficiency for experiment configurations
-
-## 3. Error Handling and Logging System Issues
-- **Problem**: Fragile structure where the entire experiment stops when an error occurs during execution
-- **Problem**: Logging consists only of simple print statements, making debugging and monitoring difficult
-- **Problem**: Difficult to identify error causes and limited recovery options when errors occur
-
-## 4. Parallel Processing Performance Issues
-- **Problem**: All experiments run sequentially, resulting in long execution times
-- **Problem**: Inefficient utilization of multi-core system resources
-- **Problem**: Inefficient processing time when performing large-scale experiments
-
-## 5. Memory Efficiency Issues
-- **Problem**: Potentially excessive memory usage for high-dimensional problems like 2000-dimensional cases
-- **Problem**: Risk of memory shortage due to storing all results in memory
-- **Problem**: Potential memory leaks in long-running experiments
-
-## 6. Lack of Result Analysis and Visualization Tools
-- **Problem**: Poor readability as results are saved only in pickle format
-- **Problem**: Lack of analysis tools for experiment results makes post-processing cumbersome
-- **Problem**: Absence of functionality to export results in various formats or create visualizations
-
-## 7. Code Quality and Documentation Issues
-- **Problem**: Limited IDE support and reduced code stability due to insufficient type hints
-- **Problem**: Lack of documentation (docstrings) for functions and classes
-- **Problem**: Lack of clear structure and comments for code review and maintenance
-
-## 8. Reproducibility and Checkpoint Functionality Issues
-- **Problem**: Long-running experiments must restart from the beginning if they fail midway
-- **Problem**: No checkpoint functionality to save and restore intermediate experiment states
-- **Problem**: Lack of systematic state management to ensure experiment reproducibility
-
 <img src="https://github.com/Evolutionary-Intelligence/pypop/blob/main/docs/logo/MayorIcons.png"
 alt="drawing" width="21" height="21"/> `PyPop7` has been used and cited in one **Nature** paper
 [[Veenstra et al., Nature, 2025]](https://www.nature.com/articles/s41586-025-08646-3) and etc.

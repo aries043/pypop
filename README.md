@@ -165,7 +165,6 @@ cd pypop
 #### Step 2: Create Dockerfile
 ```bash
 # Create Dockerfile in pypop project folder
-cat > Dockerfile << EOF
 FROM python:3.10-slim
 
 WORKDIR /app
@@ -190,7 +189,6 @@ RUN pip install pyyaml
 RUN chmod +x /app/tutorials/*.py
 
 CMD ["tail", "-f", "/dev/null"]
-EOF
 ```
 
 #### Step 3: Build Docker Image

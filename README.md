@@ -224,7 +224,7 @@ docker exec -it [container ID] bash
 
 ### Container Internal Directory Structure
 ```
-/app/
+/root/pypop/
 ├── setup.cfg                    # Package configuration file
 ├── pyproject.toml              # Python project configuration
 ├── README.md                   # Project documentation
@@ -256,10 +256,10 @@ docker exec -it [container ID] bash
 ```
 
 ### Purpose of Each Directory
-- **`/app/pypop7/`**: Core source code of PyPop7 library
-- **`/app/tutorials/`**: Benchmarking scripts and execution files
-- **`/app/tutorials/pypop7_benchmarks_lso/`**: Storage for experiment results and log files
-- **`/app/setup.cfg`, `/app/pyproject.toml`**: Package installation and configuration files
+- **`/root/pypop/pypop7/`**: Core source code of PyPop7 library
+- **`/root/pypop/tutorials/`**: Benchmarking scripts and execution files
+- **`/root/pypop/tutorials/pypop7_benchmarks_lso/`**: Storage for experiment results and log files
+- **`/root/pypop/setup.cfg`, `/app/pyproject.toml`**: Package installation and configuration files
 
 ## How to Finish Execution and Terminate
 
@@ -288,7 +288,7 @@ docker stop $(docker ps -q)
 
 ### Step 1: Data Preparation (Run once initially)
 ```bash
-python ./tutorials/benchmarking_lsbbo_1.py
+python /root/pypop/tutorials/benchmarking_lsbbo_1.py
 ```
 
 ### Step 2: Benchmarking Execution
@@ -296,21 +296,21 @@ python ./tutorials/benchmarking_lsbbo_1.py
 #### **Basic Execution (Quick Test)**
 ```bash
 # Single experiment with CMAES algorithm on 2D problem
-python ./tutorials/benchmarking_lsbbo_2.py --start 0 --end 0 --optimizer CMAES --ndim_problem 2
+python /root/pypop/tutorials/benchmarking_lsbbo_2.py --start 0 --end 0 --optimizer CMAES --ndim_problem 2
 ```
 
 #### **Practical Execution Examples**
 ```bash
 # 1) 3 experiments on 10D problem
-python ./tutorials/benchmarking_lsbbo_2.py --start 0 --end 2 --optimizer JADE --ndim_problem 10
+python /root/pypop/tutorials/benchmarking_lsbbo_2.py --start 0 --end 2 --optimizer JADE --ndim_problem 10
 
 # 2) Compare multiple algorithms (run each separately)
-python ./tutorials/benchmarking_lsbbo_2.py --start 0 --end 4 --optimizer CMAES --ndim_problem 100
-python ./tutorials/benchmarking_lsbbo_2.py --start 0 --end 4 --optimizer JADE --ndim_problem 100
-python ./tutorials/benchmarking_lsbbo_2.py --start 0 --end 4 --optimizer PRS --ndim_problem 100
+python /root/pypop/tutorials/benchmarking_lsbbo_2.py --start 0 --end 4 --optimizer CMAES --ndim_problem 100
+python /root/pypop/tutorials/benchmarking_lsbbo_2.py --start 0 --end 4 --optimizer JADE --ndim_problem 100
+python /root/pypop/tutorials/benchmarking_lsbbo_2.py --start 0 --end 4 --optimizer PRS --ndim_problem 100
 
 # 3) Large-scale experiment (2000D, 10 experiments)
-python ./tutorials/benchmarking_lsbbo_2.py --start 0 --end 9 --optimizer CMAES --ndim_problem 2000
+python /root/pypop/tutorials/benchmarking_lsbbo_2.py --start 0 --end 9 --optimizer CMAES --ndim_problem 2000
 ```
 
 ---

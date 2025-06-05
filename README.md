@@ -288,6 +288,11 @@ docker stop <container ID>
 docker stop $(docker ps -q)
 ```
 
+## Step 3: Remove Image
+```bash
+# Remove image
+docker rmi final_2021040018:v1
+```
 ---
 
 # PyPop7: A Pure-PYthon librarY of POPulation-based cOntinuous OPtimization in black-box cases [CCF-A]

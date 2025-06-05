@@ -153,50 +153,19 @@ Step-by-step execution instructions assuming Docker is already installed.
 
 ## Docker Image Download and Installation
 
-### Method 1: Build Image Directly
-
-#### Step 1: Download Source Code
+### Step 1: Download Source Code
 ```bash
 # Clone project from GitHub
 git clone https://github.com/aries043/pypop.git
 cd pypop
 ```
 
-#### Step 2: Create Dockerfile
+### Step 2: Load an Image From a Tar File
 ```bash
-# Create Dockerfile in pypop project folder
-FROM python:3.10-slim
+# Please save final_2021040018.tar in the project folder
+docker load -i final_2021040018.tar
 
-WORKDIR /root/pypop
-
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    git \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY setup.cfg /root/pypop/
-COPY pyproject.toml /root/pypop/
-COPY README.md /root/pypop/
-COPY pypop7/ /root/pypop/pypop7/
-COPY tutorials/ /root/pypop/tutorials/
-
-RUN pip install --upgrade pip setuptools wheel
-
-RUN pip install pypop7
-
-RUN pip install pyyaml
-
-RUN chmod +x /root/pypop/tutorials/*.py
-
-CMD ["tail", "-f", "/dev/null"]
-```
-
-#### Step 3: Build Docker Image
-```bash
-# Build Docker image
-docker build -t final_2021040018:v1 .
-
-# Verify built image
+# Verify image
 docker images
 ```
 
@@ -288,7 +257,10 @@ docker stop $(docker ps -q)
 
 ### Step 1: Data Preparation (Run once initially)
 ```bash
-python /root/pypop/tutorials/benchmarking_lsbbo_1.py
+# Please proceed in the project folder(/root/pypop/)
+cd /root/pypop
+
+python ./tutorials/benchmarking_lsbbo_1.py
 ```
 
 ### Step 2: Benchmarking Execution
@@ -296,21 +268,21 @@ python /root/pypop/tutorials/benchmarking_lsbbo_1.py
 #### **Basic Execution (Quick Test)**
 ```bash
 # Single experiment with CMAES algorithm on 2D problem
-python /root/pypop/tutorials/benchmarking_lsbbo_2.py --start 0 --end 0 --optimizer CMAES --ndim_problem 2
+python ./tutorials/benchmarking_lsbbo_2.py --start 0 --end 0 --optimizer CMAES --ndim_problem 2
 ```
 
 #### **Practical Execution Examples**
 ```bash
 # 1) 3 experiments on 10D problem
-python /root/pypop/tutorials/benchmarking_lsbbo_2.py --start 0 --end 2 --optimizer JADE --ndim_problem 10
+python ./tutorials/benchmarking_lsbbo_2.py --start 0 --end 2 --optimizer JADE --ndim_problem 10
 
 # 2) Compare multiple algorithms (run each separately)
-python /root/pypop/tutorials/benchmarking_lsbbo_2.py --start 0 --end 4 --optimizer CMAES --ndim_problem 100
-python /root/pypop/tutorials/benchmarking_lsbbo_2.py --start 0 --end 4 --optimizer JADE --ndim_problem 100
-python /root/pypop/tutorials/benchmarking_lsbbo_2.py --start 0 --end 4 --optimizer PRS --ndim_problem 100
+python ./tutorials/benchmarking_lsbbo_2.py --start 0 --end 4 --optimizer CMAES --ndim_problem 100
+python ./tutorials/benchmarking_lsbbo_2.py --start 0 --end 4 --optimizer JADE --ndim_problem 100
+python ./tutorials/benchmarking_lsbbo_2.py --start 0 --end 4 --optimizer PRS --ndim_problem 100
 
 # 3) Large-scale experiment (2000D, 10 experiments)
-python /root/pypop/tutorials/benchmarking_lsbbo_2.py --start 0 --end 9 --optimizer CMAES --ndim_problem 2000
+python ./tutorials/benchmarking_lsbbo_2.py --start 0 --end 9 --optimizer CMAES --ndim_problem 2000
 ```
 
 ---

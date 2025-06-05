@@ -167,18 +167,18 @@ cd pypop
 # Create Dockerfile in pypop project folder
 FROM python:3.10-slim
 
-WORKDIR /app
+WORKDIR /root/pypop
 
 RUN apt-get update && apt-get install -y \
     build-essential \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-COPY setup.cfg /app/
-COPY pyproject.toml /app/
-COPY README.md /app/
-COPY pypop7/ /app/pypop7/
-COPY tutorials/ /app/tutorials/
+COPY setup.cfg /root/pypop/
+COPY pyproject.toml /root/pypop/
+COPY README.md /root/pypop/
+COPY pypop7/ /root/pypop/pypop7/
+COPY tutorials/ /root/pypop/tutorials/
 
 RUN pip install --upgrade pip setuptools wheel
 
@@ -186,7 +186,7 @@ RUN pip install pypop7
 
 RUN pip install pyyaml
 
-RUN chmod +x /app/tutorials/*.py
+RUN chmod +x /root/pypop/tutorials/*.py
 
 CMD ["tail", "-f", "/dev/null"]
 ```

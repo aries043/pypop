@@ -259,7 +259,7 @@ docker exec -it [container ID] bash
 - **`/root/pypop/pypop7/`**: Core source code of PyPop7 library
 - **`/root/pypop/tutorials/`**: Benchmarking scripts and execution files
 - **`/root/pypop/tutorials/pypop7_benchmarks_lso/`**: Storage for experiment results and log files
-- **`/root/pypop/setup.cfg`, `/app/pyproject.toml`**: Package installation and configuration files
+- **`/root/pypop/setup.cfg`, `/root/pypop/pyproject.toml`**: Package installation and configuration files
 
 ## How to Finish Execution and Terminate
 

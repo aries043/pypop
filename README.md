@@ -257,6 +257,7 @@ docker stop $(docker ps -q)
 
 ### Step 1: Data Preparation (Run once initially)
 ```bash
+# Inside the container(docker exec -it [container ID] bash)
 # Please proceed in the project folder(/root/pypop/)
 cd /root/pypop
 

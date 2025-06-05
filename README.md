@@ -153,16 +153,8 @@ Step-by-step execution instructions assuming Docker is already installed.
 
 ## Docker Image Download and Installation
 
-### Step 1: Download Source Code
+### Load an Image From a Tar File
 ```bash
-# Clone project from GitHub
-git clone https://github.com/aries043/pypop.git
-cd pypop
-```
-
-### Step 2: Load an Image From a Tar File
-```bash
-# Please save final_2021040018.tar in the project folder
 docker load -i final_2021040018.tar
 
 # Verify image

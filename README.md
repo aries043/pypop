@@ -186,7 +186,7 @@ docker ps
 ### Step 3: Access Container
 ```bash
 # Access using container ID
-docker exec -it [container ID] bash
+docker exec -it <container ID> bash
 ```
 
 ## Directory Structure
@@ -230,23 +230,6 @@ docker exec -it [container ID] bash
 - **`/root/pypop/tutorials/pypop7_benchmarks_lso/`**: Storage for experiment results and log files
 - **`/root/pypop/setup.cfg`, `/root/pypop/pyproject.toml`**: Package installation and configuration files
 
-## How to Finish Execution and Terminate
-
-### Step 1: Exit Container
-```bash
-# Execute inside container (terminate bash session)
-exit
-```
-
-### Step 2: Stop Container
-```bash
-# Stop container
-docker stop [container ID or name]
-
-# Stop all running containers
-docker stop $(docker ps -q)
-```
-
 ---
  
 # Guide
@@ -257,7 +240,7 @@ docker stop $(docker ps -q)
 
 ### Step 1: Data Preparation (Run once initially)
 ```bash
-# Inside the container(docker exec -it [container ID] bash)
+# Inside the container(docker exec -it <container ID> bash)
 # Please proceed in the project folder(/root/pypop/)
 cd /root/pypop
 
@@ -284,6 +267,25 @@ python ./tutorials/benchmarking_lsbbo_2.py --start 0 --end 4 --optimizer PRS --n
 
 # 3) Large-scale experiment (2000D, 10 experiments)
 python ./tutorials/benchmarking_lsbbo_2.py --start 0 --end 9 --optimizer CMAES --ndim_problem 2000
+```
+
+---
+
+# How to Finish Execution and Terminate
+
+## Step 1: Exit Container
+```bash
+# Execute inside container (terminate bash session)
+exit
+```
+
+## Step 2: Stop Container
+```bash
+# Stop container
+docker stop <container ID>
+
+# Stop all running containers
+docker stop $(docker ps -q)
 ```
 
 ---
